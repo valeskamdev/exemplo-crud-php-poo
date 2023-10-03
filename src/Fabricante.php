@@ -2,10 +2,21 @@
 
 namespace ExemploCrudPoo;
 
+use PDO;
+
 class Fabricante
 {
     private int $id;
     private string $nome;
+    private PDO $conexao;
+
+    public function __construct() {
+        /**
+         * No momento em que um objeto Fabricante for criado, automaticamnte
+         * será feita a chamada do método "conecta" da classe Banco.
+         */
+        $this->conexao = Banco::conecta();
+    }
 
     public function getId(): int
     {
