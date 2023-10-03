@@ -2,20 +2,36 @@
 
 namespace ExemploCrudPoo;
 
-use PDO;
+use Exception, PDO;
 
-class Fabricante
+final class Fabricante
 {
     private int $id;
     private string $nome;
     private PDO $conexao;
 
-    public function __construct() {
+    public function __construct()
+    {
         /**
          * No momento em que um objeto Fabricante for criado, automaticamnte
          * será feita a chamada do método "conecta" da classe Banco.
          */
         $this->conexao = Banco::conecta();
+    }
+
+    public function lerFabricantes(): array
+    {
+        $sql = "SELECT * FROM fabricantes ORDER BY nome";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro: " . $erro->getMessage());
+        }
+
+        return $resultado;
     }
 
     public function getId(): int
