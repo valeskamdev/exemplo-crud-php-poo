@@ -1,5 +1,5 @@
 <?php
-require_once "database.php";
+require_once "Banco.php";
 
 function lerProdutos(PDO $conexao):array {
     $sql = "SELECT 
