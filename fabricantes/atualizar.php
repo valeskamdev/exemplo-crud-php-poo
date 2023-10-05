@@ -7,9 +7,9 @@ $fabricante->setId($_GET['id']);
 $dadosFabricante = $fabricante->lerUmFabricante();
 
 if( isset($_POST['atualizar']) ){
-    $nome = filter_input(INPUT_POST, "nome", FILTER_SANITIZE_SPECIAL_CHARS);
-    atualizarFabricante($conexao, $nome, $id);  
-    header("location:visualizar.php?status=sucesso");
+  $fabricante->setNome($_POST['nome']);
+  $fabricante->atualizarFabricante();
+  header("location:visualizar.php?status=sucesso");
 }
 ?>
 <!DOCTYPE html>
