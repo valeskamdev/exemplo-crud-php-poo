@@ -43,7 +43,7 @@ class Produto
         return $resultado;
     }
 
-    function inserir(): void
+    public function inserir(): void
     {
         $sql = "INSERT INTO produtos(
         nome, preco, quantidade, descricao, fabricante_id
@@ -64,7 +64,7 @@ class Produto
         }
     }
 
-    function lerUm():array {
+    public function lerUm():array {
         $sql = "SELECT * FROM produtos WHERE id = :id";
         try {
             $consulta = $this->conexao->prepare($sql);
@@ -75,6 +75,28 @@ class Produto
             die("Erro ao carregar dados: ".$erro->getMessage());
         }
         return $resultado;
+    }
+
+    public function atualizar():void {
+
+        $sql = "UPDATE produtos SET
+        nome = :nome,
+        preco = :preco,
+        quantidade = :quantidade,
+        descricao = :descricao,
+        fabricante_id = :fabricanteId WHERE id = :id";
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->bindValue(":preco", $this->preco, PDO::PARAM_STR);
+            $consulta->bindValue(":quantidade", $this->quantidade, PDO::PARAM_INT);
+            $consulta->bindValue(":descricao", $this->descricao, PDO::PARAM_STR);
+            $consulta->bindValue(":fabricanteId", $this->fabricanteId, PDO::PARAM_INT);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao atualizar: ".$erro->getMessage());
+        }
     }
 
 
