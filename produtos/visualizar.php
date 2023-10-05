@@ -2,7 +2,6 @@
 use ExemploCrudPoo\ { Produto, Utilitarios };
 
 require_once "../vendor/autoload.php";
-require_once "../src/funcoes-utilitarias.php";
 $produto = new Produto();
 $listaDeProdutos = $produto->ler();
 ?>
