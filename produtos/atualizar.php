@@ -1,7 +1,9 @@
 <?php
-require_once "../src/funcoes-produtos.php";
-require_once "../src/funcoes-fabricantes.php";
-$listaDeFabricantes = lerFabricantes($conexao);
+use ExemploCrudPoo\ { Produto, Fabricante };
+
+require_once "../vendor/autoload.php";
+$fabricante = new Fabricante();
+$listaDeFabricantes = $fabricante->ler();
 
 $id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_NUMBER_INT);
 $produto = lerUmProduto($conexao, $id);
