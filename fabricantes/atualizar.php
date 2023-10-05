@@ -4,11 +4,11 @@ use ExemploCrudPoo\Fabricante;
 require_once "../vendor/autoload.php";
 $fabricante = new Fabricante();
 $fabricante->setId($_GET['id']);
-$dadosFabricante = $fabricante->lerUmFabricante();
+$dadosFabricante = $fabricante->lerUm();
 
 if( isset($_POST['atualizar']) ){
   $fabricante->setNome($_POST['nome']);
-  $fabricante->atualizarFabricante();
+  $fabricante->atualizar();
   header("location:visualizar.php?status=sucesso");
 }
 ?>

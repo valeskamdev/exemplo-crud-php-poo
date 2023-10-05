@@ -19,7 +19,7 @@ final class Fabricante
         $this->conexao = Banco::conecta();
     }
 
-    public function lerFabricantes(): array
+    public function ler(): array
     {
         $sql = "SELECT * FROM fabricantes ORDER BY nome";
 
@@ -34,7 +34,7 @@ final class Fabricante
         return $resultado;
     }
 
-    public function inserirFabricante():void {
+    public function inserir():void {
         $sql = "INSERT INTO fabricantes(nome) VALUES(:nome)";
 
         try {
@@ -47,7 +47,7 @@ final class Fabricante
 
     }
 
-    public function lerUmFabricante():array {
+    public function lerUm():array {
         $sql = "SELECT * FROM fabricantes WHERE id = :id";
 
         try {
@@ -62,7 +62,7 @@ final class Fabricante
         return $resultado;
     }
 
-    function atualizarFabricante():void {
+    public function atualizar():void {
         $sql = "UPDATE fabricantes SET nome = :nome WHERE id = :id";
 
         try {
@@ -72,6 +72,17 @@ final class Fabricante
             $consulta->execute();
         } catch (Exception $erro) {
             die("Erro ao atualizar: ".$erro->getMessage());
+        }
+    }
+
+    public function excluir():void {
+        $sql = "DELETE FROM fabricantes WHERE id = :id";
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao excluir: ".$erro->getMessage());
         }
     }
 

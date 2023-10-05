@@ -6,7 +6,7 @@ require_once "../vendor/autoload.php";
 if( isset($_POST['inserir']) ){
     $fabricante = new Fabricante();
     $fabricante->setNome($_POST['nome']);
-    $fabricante->inserirFabricante();
+    $fabricante->inserir();
     header("location:visualizar.php");
 }
 ?>
