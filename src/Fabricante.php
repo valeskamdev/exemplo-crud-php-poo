@@ -64,6 +64,6 @@ final class Fabricante
 
     public function setNome(string $nome): void
     {
-        $this->nome = $nome;
+        $this->nome = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 }
