@@ -5,7 +5,6 @@ use ExemploCrudPoo\Fabricante;
 require_once "../vendor/autoload.php";
 
 $fabricante = new Fabricante();
-var_dump($fabricante);
 
 $listaDeFabricantes = $fabricante->lerFabricantes();
 $quantidade = count($listaDeFabricantes);
