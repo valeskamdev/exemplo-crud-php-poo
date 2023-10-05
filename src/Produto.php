@@ -2,7 +2,7 @@
 
 namespace ExemploCrudPoo;
 
-use PDO;
+use PDO, Exception;
 
 class Produto
 {
@@ -18,6 +18,30 @@ class Produto
     {
         $this->conexao = Banco::conecta();
     }
+
+    public function ler():array {
+        $sql = "SELECT 
+                produtos.id,
+                produtos.nome AS produto,
+                produtos.preco,
+                produtos.quantidade,
+                fabricantes.nome AS fabricante,
+                (produtos.preco * produtos.quantidade) AS total
+            FROM produtos INNER JOIN fabricantes
+            ON produtos.fabricante_id = fabricantes.id
+            ORDER BY produto";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $erro) {
+            die("Erro ao carregar produtos: ".$erro->getMessage());
+        }
+
+        return $resultado;
+    }
+
 
     public function getId(): int
     {

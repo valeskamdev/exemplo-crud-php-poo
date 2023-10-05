@@ -1,7 +1,10 @@
 <?php
-require_once "../src/funcoes-produtos.php";
+use ExemploCrudPoo\Produto;
+
+require_once "../vendor/autoload.php";
 require_once "../src/funcoes-utilitarias.php";
-$listaDeProdutos = lerProdutos($conexao);
+$produto = new Produto();
+$listaDeProdutos = $produto->ler();
 ?>
 <!DOCTYPE html>
 <html lang="en">
