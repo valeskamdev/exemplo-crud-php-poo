@@ -11,7 +11,7 @@ class Produto
     private string $descricao;
     private float $preco;
     private int $quantidade;
-    private int $fabricante_id;
+    private int $fabricanteId;
     private PDO $conexao;
 
     public function __construct()
@@ -19,7 +19,8 @@ class Produto
         $this->conexao = Banco::conecta();
     }
 
-    public function ler():array {
+    public function ler(): array
+    {
         $sql = "SELECT 
                 produtos.id,
                 produtos.nome AS produto,
@@ -36,10 +37,31 @@ class Produto
             $consulta->execute();
             $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $erro) {
-            die("Erro ao carregar produtos: ".$erro->getMessage());
+            die("Erro ao carregar produtos: " . $erro->getMessage());
         }
 
         return $resultado;
+    }
+
+    function inserir(): void
+    {
+        $sql = "INSERT INTO produtos(
+        nome, preco, quantidade, descricao, fabricante_id
+    ) VALUES(
+        :nome, :preco, :quantidade, :descricao, :fabricanteId
+    )";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->bindValue(":preco", $this->preco, PDO::PARAM_STR);
+            $consulta->bindValue(":quantidade", $this->quantidade, PDO::PARAM_INT);
+            $consulta->bindValue(":descricao", $this->descricao, PDO::PARAM_STR);
+            $consulta->bindValue(":fabricanteId", $this->fabricanteId, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $erro) {
+            die("Erro ao inserir: " . $erro->getMessage());
+        }
     }
 
 
@@ -50,7 +72,7 @@ class Produto
 
     public function setId(int $id): void
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
     }
 
     public function getNome(): string
@@ -60,7 +82,7 @@ class Produto
 
     public function setNome(string $nome): void
     {
-        $this->nome = $nome;
+        $this->nome = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getDescricao(): string
@@ -70,7 +92,10 @@ class Produto
 
     public function setDescricao(string $descricao): void
     {
-        $this->descricao = $descricao;
+        $this->descricao = filter_var(
+          $descricao,
+          FILTER_SANITIZE_SPECIAL_CHARS
+        );
     }
 
     public function getPreco(): float
@@ -80,7 +105,11 @@ class Produto
 
     public function setPreco(float $preco): void
     {
-        $this->preco = $preco;
+        $this->preco = filter_var(
+          $preco,
+          FILTER_SANITIZE_NUMBER_FLOAT,
+          FILTER_FLAG_ALLOW_FRACTION
+        );
     }
 
     public function getQuantidade(): int
@@ -90,17 +119,17 @@ class Produto
 
     public function setQuantidade(int $quantidade): void
     {
-        $this->quantidade = $quantidade;
+        $this->quantidade = filter_var($quantidade, FILTER_SANITIZE_NUMBER_INT);
     }
 
     public function getFabricanteId(): int
     {
-        return $this->fabricante_id;
+        return $this->fabricanteId;
     }
 
-    public function setFabricanteId(int $fabricante_id): void
+    public function setFabricanteId(int $fabricanteId): void
     {
-        $this->fabricante_id = $fabricante_id;
+        $this->fabricanteId = filter_var($fabricanteId, FILTER_SANITIZE_NUMBER_INT);
     }
 
     public function getConexao(): PDO
