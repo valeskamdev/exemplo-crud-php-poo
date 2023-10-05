@@ -69,7 +69,7 @@ final class Fabricante
 
     public function setId(int $id): void
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
     }
 
     public function getNome(): string
