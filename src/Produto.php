@@ -4,7 +4,7 @@ namespace ExemploCrudPoo;
 
 use PDO, Exception;
 
-class Produto
+final class Produto
 {
     private int $id;
     private string $nome;
